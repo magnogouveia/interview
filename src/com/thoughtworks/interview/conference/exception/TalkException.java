@@ -7,4 +7,8 @@ public class TalkException extends Exception {
 	public TalkException(String message) {
 		super(message);
 	}
+
+	public TalkException(String message, String row) {
+		super(message + ": " + row);
+	}
 }

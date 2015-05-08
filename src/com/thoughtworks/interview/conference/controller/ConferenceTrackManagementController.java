@@ -1,6 +1,8 @@
 package com.thoughtworks.interview.conference.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,9 +17,19 @@ public class ConferenceTrackManagementController {
 		try {
 			ArrayList<Talk> talks = this.loadTalks(rowsTalks);
 
+			System.out.print("[");
 			for (Talk talk : talks) {
-				System.out.println(talk.getTitle() + " " + talk.getDuration());
+				System.out.print(talk.getDuration() + ", ");
 			}
+			System.out.print("]");
+
+			Collections.sort(talks);
+
+			System.out.print("\n[");
+			for (Talk talk : talks) {
+				System.out.print(talk.getDuration() + ", ");
+			}
+			System.out.print("]");
 
 			ArrayList<Session> sessions = this.loadSessions(talks);
 		} catch (TalkException te) {
@@ -32,31 +44,47 @@ public class ConferenceTrackManagementController {
 		ArrayList<Talk> talks = new ArrayList<Talk>();
 
 		Talk talk;
+
 		for (String row : rowsTalks) {
 			talk = new Talk();
 
-			int lastSpaceIndexOf = row.lastIndexOf(' ');
-			talk.setTitle(row.substring(0, lastSpaceIndexOf));
-			String durationTime = row.substring(lastSpaceIndexOf + 1);
+			String title = row;
+			Integer duration = null;
 
-			durationTime = durationTime.toLowerCase();
-			if (durationTime.endsWith("lightning"))
-				talk.setDuration(Util.DURATION_MINUTES_LIGHTNING);
-			else if (durationTime.endsWith("min"))
-				talk.setDuration(Integer.parseInt(durationTime.substring(0,
-						row.indexOf(Util.EXTENSION_MINUTES))));
-			else {
-				new TalkException("Ops! Invalid time.");
+			Matcher matcher = Pattern.compile("\\d+").matcher(row);
+			if (matcher.find()) {
+				duration = Integer.parseInt(matcher.group().trim());
+
+				if (row.endsWith(Util.EXTENSION_LIGHTNING))
+					duration *= Util.DURATION_MINUTES_LIGHTNING;
+
+				title = row.substring(0, matcher.start());
+
+			} else if (row.endsWith(Util.EXTENSION_LIGHTNING)) {
+				// Caso não tenha um número na string e esta termine em
+				// "lightning"
+				matcher = Pattern.compile(Util.EXTENSION_LIGHTNING)
+						.matcher(row);
+				if (matcher.find())
+					title = row.substring(0, matcher.end());
+
+				duration = Util.DURATION_MINUTES_LIGHTNING;
+			} else {
+				new TalkException("Ops! Invalid time extension.", row);
 			}
 
-			talks.add(talk);
+			if (duration != null) {
+				talk.setTitle(title.trim());
+				talk.setDuration(duration);
 
+				talks.add(talk);
+			}
 		}
 
 		return talks;
 	}
 
-	public ArrayList<Session> loadSessions(ArrayList<Talk> talks) {
+	public ArrayList<Session> loadSessions(List<Talk> talks) {
 		ArrayList<Session> sessions = new ArrayList<Session>();
 
 		for (Talk talk : talks) {

@@ -6,7 +6,7 @@ package com.thoughtworks.interview.conference.model;
  *         Palestra
  *         </p>
  */
-public class Talk {
+public class Talk implements Comparable<Talk> {
 
 	private String title;
 
@@ -31,4 +31,14 @@ public class Talk {
 		this.duration = duration;
 	}
 
+	@Override
+	public int compareTo(Talk o) {
+		if (this.duration < o.duration)
+			return -1;
+
+		if (this.duration > o.duration)
+			return 1;
+
+		return 0;
+	}
 }
