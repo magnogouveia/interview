@@ -38,10 +38,14 @@ public class ConferenceTrackManagementController {
 
 	}
 
-	public ArrayList<Talk> loadTalks(ArrayList<String> rowsTalks)
-			throws TalkException {
+	/**
+	 * @param rowsTalks
+	 * @return uma lista de talks desordenadas
+	 * @throws TalkException
+	 */
+	List<Talk> loadTalks(ArrayList<String> rowsTalks) throws TalkException {
 
-		ArrayList<Talk> talks = new ArrayList<Talk>();
+		List<Talk> talks = new ArrayList<Talk>();
 
 		Talk talk;
 
@@ -84,14 +88,14 @@ public class ConferenceTrackManagementController {
 		return talks;
 	}
 
-	public ArrayList<Session> loadSessions(List<Talk> talks) {
-		ArrayList<Session> sessions = new ArrayList<Session>();
+	public List<Session> loadSessions(List<Talk> talks) {
+		List<Session> sessions = new ArrayList<Session>();
 
 		for (Talk talk : talks) {
-
+			
 		}
 
-		return null;
+		return sessions;
 	}
 
 	// private boolean relativeSubArraySum(ArrayList<Session> array[], int
