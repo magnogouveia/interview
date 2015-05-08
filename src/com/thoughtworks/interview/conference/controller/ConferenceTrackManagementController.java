@@ -32,44 +32,25 @@ public class ConferenceTrackManagementController {
 		ArrayList<Talk> talks = new ArrayList<Talk>();
 
 		Talk talk;
-		Matcher matcher;
-		String durationExtension;
-		int durationTime;
 		for (String row : rowsTalks) {
 			talk = new Talk();
 
-			matcher = Pattern.compile("\\d+").matcher(row);
-			durationExtension = null;
-			durationTime = 0;
+			int lastSpaceIndexOf = row.lastIndexOf(' ');
+			talk.setTitle(row.substring(0, lastSpaceIndexOf));
+			String durationTime = row.substring(lastSpaceIndexOf + 1);
 
-			// Caso tenho um número
-			if (matcher.find()) {
-				durationTime = Integer.parseInt(matcher.group().trim());
-				durationExtension = row.substring(matcher.end()).trim();
-			} else {
-				// senão, se tiver a palavra lightning
-				matcher = Pattern.compile(Util.EXTENSION_LIGHTNING)
-						.matcher(row);
-				if (matcher.find()) {
-					durationTime = Util.DURATION_MINUTES_LIGHTNING;
-					durationExtension = Util.EXTENSION_LIGHTNING;
-				}
+			durationTime = durationTime.toLowerCase();
+			if (durationTime.endsWith("lightning"))
+				talk.setDuration(Util.DURATION_MINUTES_LIGHTNING);
+			else if (durationTime.endsWith("min"))
+				talk.setDuration(Integer.parseInt(durationTime.substring(0,
+						row.indexOf(Util.EXTENSION_MINUTES))));
+			else {
+				new TalkException("Ops! Invalid time.");
 			}
 
-			// Caso a extensão não esteja preenchida, lança uma exception
-			if (durationExtension == null
-					|| (!durationExtension.equals(Util.EXTENSION_MINUTES) && !durationExtension
-							.equals(Util.EXTENSION_LIGHTNING))) {
-				throw new TalkException("Ops! Talk doesn't have a time: \""
-						+ row + "\"");
+			talks.add(talk);
 
-			} else {
-
-				talk.setTitle(row.substring(0, matcher.start()).trim());
-				talk.setDuration(durationTime);
-
-				talks.add(talk);
-			}
 		}
 
 		return talks;
