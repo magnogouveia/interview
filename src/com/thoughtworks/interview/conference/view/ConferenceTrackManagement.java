@@ -9,11 +9,6 @@ public class ConferenceTrackManagement {
 	public static void main(String[] args) {
 		ArrayList<String> rows = new ArrayList<String>();
 
-		rows.add("Time com espaço antes da extensão min 60 min");
-		rows.add("Time com espaço antes da extensão lightning 20lightning");
-		rows.add("Time apenas lightning lightning");
-		rows.add("Time apenas min min");
-		
 		rows.add("Writing Fast Tests Against Enterprise Rails 60 min");
 		rows.add("Overdoing it in Python 45min");
 		rows.add("Lua for the Masses 30min");
@@ -33,9 +28,10 @@ public class ConferenceTrackManagement {
 		rows.add("Ruby on Rails Legacy App Maintenance 60min");
 		rows.add("A World Without HackerNews 30min");
 		rows.add("User Interface CSS in Rails Apps 30min");
-		
+
 		ConferenceTrackManagementController controller = new ConferenceTrackManagementController();
-		
+
 		controller.assemblyConferrence(rows);
 	}
+
 }

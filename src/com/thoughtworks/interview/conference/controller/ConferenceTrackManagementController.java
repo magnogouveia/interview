@@ -33,7 +33,7 @@ public class ConferenceTrackManagementController {
 
 			ArrayList<Session> sessions = this.loadSessions(talks);
 		} catch (TalkException te) {
-			te.printStackTrace();
+			System.out.println(te.getMessage());
 		}
 
 	}
