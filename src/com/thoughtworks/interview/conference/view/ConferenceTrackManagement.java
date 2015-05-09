@@ -14,7 +14,7 @@ public class ConferenceTrackManagement {
 		rows.add("Lua for the Masses 30min");
 		rows.add("Ruby Errors from Mismatched Gem Versions 45min");
 		rows.add("Common Ruby Errors 45min");
-		rows.add("Rails for Python Developers light ning");
+		rows.add("Rails for Python Developers lightning");
 		rows.add("Communicating Over Distance 60min");
 		rows.add("Accounting-Driven Development 45min");
 		rows.add("Woah 30min");

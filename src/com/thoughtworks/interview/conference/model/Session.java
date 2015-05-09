@@ -1,57 +1,45 @@
 package com.thoughtworks.interview.conference.model;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * <p>
- * Representa o turno (Manh„, Tarde e Noite)
+ * Representa o turno (Manh√£, Tarde e Noite)
  * </p>
  * 
  * @author magnogouveia
  */
 public class Session {
 
-	private String name;
-
-	private Date startAt;
-
-	private Date endAt;
+	private String type;
+	
+	private int duration;
 
 	private ArrayList<Talk> talks;
 
 	public Session() {
 	}
 
-	public Session(String name, Date startAt, Date endAt, ArrayList<Talk> talks) {
-		this.name = name;
-		this.startAt = startAt;
-		this.endAt = endAt;
+	public Session(String type, int duration, ArrayList<Talk> talks) {
+		this.type = type;
+		this.duration = duration;
 		this.talks = talks;
 	}
 
-	public String getName() {
-		return name;
+	public String getType() {
+		return type;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public Date getStartAt() {
-		return startAt;
+	public int getDuration() {
+		return duration;
 	}
 
-	public void setStartAt(Date startAt) {
-		this.startAt = startAt;
-	}
-
-	public Date getEndAt() {
-		return endAt;
-	}
-
-	public void setEndAt(Date endAt) {
-		this.endAt = endAt;
+	public void setDuration(int duration) {
+		this.duration = duration;
 	}
 
 	public ArrayList<Talk> getTalks() {
